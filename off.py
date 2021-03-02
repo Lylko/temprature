@@ -1,6 +1,7 @@
 import os, winshell, wmi, time, configparser, smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from sending import Send
 
 import clr # the pythonnet module.
 clr.AddReference(os.getcwd() + r'\OpenHardwareMonitorLib')
@@ -9,6 +10,8 @@ from OpenHardwareMonitor.Hardware import Computer
 c = Computer()
 c.GPUEnabled = True
 c.Open()
+
+s = Send()
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -29,36 +32,16 @@ while True:
 
 			if now>limit:
 				try:
-					os.system("TASKKILL /F /IM nanominer.exe")
-				 #------------------------------------------------message----------------------------------------------
-					smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-					smtpObj.starttls()
-					smtpObj.login('unknownyunicode@gmail.com','QWSAqwsa7907')
-					message = 'Температура рига превысилы поставленную метку в {}. Программа майнинга была отключена.'.format(limit)
-					msg = MIMEMultipart()       
-					msg['From']='unknownyunicode@gmail.com'
-					msg['To']='androsov406@gmail.com'
-					msg['Subject']="Превышен поставленый предел температуры."
-					msg.attach(MIMEText(message, 'plain'))
-					smtpObj.send_message(msg)
-					print('Отправлен отчет на почту {}'.format(msg['To']))
-				 #------------------------------------------------------------------------------------------------------
+					s.warning_close(limit)
 				except:
 					print('Была превышена температура')
 					pass
+
+
 			timer -= 3
 			if timer <=0:
-				smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-				smtpObj.starttls()
-				smtpObj.login('unknownyunicode@gmail.com','QWSAqwsa7907')
-				message = 'Максимальная температура: {}'.format(maxim)					
-				msg = MIMEMultipart()       
-				msg['From']='unknownyunicode@gmail.com'
-				msg['To']='androsov406@gmail.com'
-				msg['Subject']="Температура рига: {}.".format(now)
-				msg.attach(MIMEText(message, 'plain'))
-				smtpObj.send_message(msg)
-				print('Отправлен отчет на почту {}'.format(msg['To']))
+				s.time_to_send(now, maxim)
 				timer = int(config.get('Timing','Time_to_send'))
+
 			time.sleep(3)
 			c.Hardware[0].Update()
