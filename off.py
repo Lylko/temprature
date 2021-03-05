@@ -20,6 +20,8 @@ maxim = 0
 limit = int(config.get('Timing','maximum_temperature'))
 timer = int(config.get('Timing','Time_to_send'))
 
+current_time = int(time.time())
+
 while True:
 	for a in range(0, len(c.Hardware[0].Sensors)):
 		if "/nvidiagpu/0/temperature" in str(c.Hardware[0].Sensors[a].Identifier):
@@ -38,10 +40,9 @@ while True:
 					pass
 
 
-			timer -= 3
-			if timer <=0:
+			if int(time.time()) - current_time >= timer:
+				current_time = int(time.time())
 				s.time_to_send(now, maxim)
-				timer = int(config.get('Timing','Time_to_send'))
 
-			time.sleep(3)
+			time.sleep(0.5)
 			c.Hardware[0].Update()
