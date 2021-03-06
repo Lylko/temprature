@@ -20,6 +20,11 @@ maxim = 0
 limit = int(config.get('Timing','maximum_temperature'))
 timer = int(config.get('Timing','Time_to_send'))
 
+User_data = []
+User_data.append(str(config.get('User' , 'Mail')))
+User_data.append(str(config.get('User' , 'Password')))
+
+
 current_time = int(time.time())
 
 while True:
@@ -42,7 +47,7 @@ while True:
 
 			if int(time.time()) - current_time >= timer:
 				current_time = int(time.time())
-				s.time_to_send(now, maxim)
+				s.time_to_send(now, maxim, User_data)
 
 			time.sleep(0.5)
 			c.Hardware[0].Update()
