@@ -49,18 +49,30 @@ c.Open()
 
 s = Send()
 
-#--------------------------config-setting reading------------------------------
+#--------------------------config-settings reading------------------------------
+
 config = configparser.ConfigParser()
 config.read('config.ini')
-
 maxim = 0
-limit = int(config.get('Timing','maximum_temperature'))
-timer = int(config.get('Timing','Time_to_send'))
 
-User_data = []
-User_data.append(str(config.get('User' , 'Mail')))
-User_data.append(str(config.get('User' , 'Password')))
+#------------------------config check------------------------------------------
+while 1:
+    config.read('config.ini')
+    limit = int(config.get('Timing','maximum_temperature'))
+    timer = int(config.get('Timing','Time_to_send'))
+    User_data = []
+    User_data.append(str(config.get('User' , 'Mail')))
+    User_data.append(str(config.get('User' , 'Password')))
+    Dev_mode = int(config.get('User' , 'Developer_mode'))
+
+    if (limit<40 or limit>120 or timer<60 or timer>86240) and Dev_mode == 0:
+        print('Configure error. Please, check your settings. Process will be autorestarted after 20 sec.')
+        time.sleep(20)
+    else:
+        break
 #------------------------------------------------------------------------------
+#------------------------------------------------------------------------------
+
 
 #---------------------get current time in global mode--------------------------
 current_time = int(time.time())
