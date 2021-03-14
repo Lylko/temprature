@@ -17,8 +17,6 @@ s = Send()
 
 db = MySQL() # connecting with database
 
-#cDWsqY3MLcoJ8GZGtDsp
-
 #--------------------------config-settings reading------------------------------
 
 config = configparser.ConfigParser()
@@ -66,24 +64,24 @@ while True:
                 s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 0)
 
             if time.time()-current_time >=30:
-                            current_time = time.time()
-                            Seconds += 30
-                            if Seconds == 60:
-                                Minutes+=1
-                                if Minutes == 60:
-                                    Hours += 1
-                                    Minutes = 0
-                                Seconds = 0
-                            if (db.check_command(599510356)[0][3]) == 1:
-                                s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 1)
+                current_time = time.time()
+                Seconds += 30
+                if Seconds == 60:
+                    Minutes+=1
+                    if Minutes == 60:
+                        Hours += 1
+                        Minutes = 0
+                    Seconds = 0
+                if (db.check_command(599510356)[0][3]) == 1:
+                    s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 1)
 
-                            if len(Time_data)>5:
-                                del(Time_data[0])
-                                Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
-                                Temperature_data.append(Current_tempreture)
-                            else:
-                                Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
-                                Temperature_data.append(Current_tempreture)
+                if len(Time_data)>5:
+                    del(Time_data[0])
+                    Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
+                    Temperature_data.append(Current_tempreture)
+                else:
+                    Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
+                    Temperature_data.append(Current_tempreture)
 
 
             if time.time() - current_time_limit >= timer:

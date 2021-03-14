@@ -14,7 +14,6 @@ class MySQL:
             print('Connection failed')
         self.cursor = self.connection.cursor()
 
-        #599510356
 
     def check_command(self,user_id):
         """Проверяем значение параметра command"""
