@@ -20,6 +20,12 @@ class MySQL:
         self.cursor.execute('SELECT * FROM `test` WHERE `user_id` = {}'.format(user_id))
         return (self.cursor.fetchall())
 
+    def command_done(self, user_id, command = 0):
+        return self.cursor.execute('UPDATE `test` SET `command` = {} WHERE `user_id` = {}'.format(command, user_id))
+
+    def commit(self):
+        self.connection.commit()
+
     def close(self):
         """Закрываем соединение с БД"""
         self.connection.close()

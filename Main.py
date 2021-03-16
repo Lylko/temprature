@@ -63,7 +63,7 @@ while True:
             if Current_tempreture>Temperature_limit:
                 s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 0)
 
-            if time.time()-current_time >=30:
+            if time.time()-current_time >=30: 
                 current_time = time.time()
                 Seconds += 30
                 if Seconds == 60:
@@ -74,6 +74,12 @@ while True:
                     Seconds = 0
                 if (db.check_command(599510356)[0][3]) == 1:
                     s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 1)
+                    db.command_done(599510356)
+                    db.commit()
+                else:
+                    db.commit()
+                    print('Нет изменений')
+
 
                 if len(Time_data)>5:
                     del(Time_data[0])
