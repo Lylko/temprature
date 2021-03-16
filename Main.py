@@ -1,31 +1,7 @@
 import os, winshell, wmi, time, configparser, smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-#----------------------------------------------------------------------------
-class Send:
-
-    def Sending_Mail (self, now, maxim, limit, User_data, mode):
-        msg = MIMEMultipart()
-        if mode == 0:
-            os.system("TASKKILL /F /IM nanominer.exe")
-            message = 'Температура рига превысилы поставленную метку в {}. Программа майнинга была отключена.'.format(limit)
-            msg['Subject']="Превышен поставленый предел температуры."
-            print('Температура будет проверена еще раз через 20 секунд.')
-            time.sleep(20)
-        else:
-            message = 'Максимальная температура: {}'.format(maxim)
-            msg['Subject']="Температура рига: {}.".format(now)
-
-        smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-        smtpObj.starttls()
-        smtpObj.login(User_data[0],User_data[1])
-        msg['From']= User_data[0]
-        msg['To']=User_data[0]
-        msg.attach(MIMEText(message, 'plain'))
-        smtpObj.send_message(msg)
-        print('Отправлен отчет на почту {}'.format(msg['To']))
-#-----------------------------------------------------------------------------
+from Classes import MySQL, Send
 
 #------------------------------------dll reding-------------------------------
 import clr # the pythonnet module.
@@ -38,6 +14,8 @@ c.Open()
 #------------------------------------------------------------------------------
 
 s = Send()
+
+db = MySQL() # connecting with database
 
 #--------------------------config-settings reading------------------------------
 
@@ -55,7 +33,7 @@ while 1:
     User_data.append(str(config.get('User' , 'Password')))
     Dev_mode = int(config.get('User' , 'Developer_mode'))
 
-    if (Temperature_limit<30 or Temperature_limit>120 or timer<60 or timer>86240) and Dev_mode == 0:
+    if (Temperature_limit<40 or Temperature_limit>120 or timer<60 or timer>86240) and Dev_mode == 0:
         print('Configure error. Please, check your settings. Process will be autorestarted after 20 sec.')
         time.sleep(20)
     else:
@@ -85,27 +63,36 @@ while True:
             if Current_tempreture>Temperature_limit:
                 s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 0)
 
-            if time.time()-current_time >=30:
-                            current_time = time.time()
-                            Seconds += 30
-                            if Seconds == 60:
-                                Minutes+=1
-                                Seconds = 0
-                            if Minutes == 60:
-                                Hours += 1
-                                Minutes = 0
-                            if len(Time_data)>5:
-                                del(Time_data[0])
-                                Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
-                                Temperature_data.append(Current_tempreture)
-                            else:
-                                Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
-                                Temperature_data.append(Current_tempreture)
+            if time.time()-current_time >=30: 
+                current_time = time.time()
+                Seconds += 30
+                if Seconds == 60:
+                    Minutes+=1
+                    if Minutes == 60:
+                        Hours += 1
+                        Minutes = 0
+                    Seconds = 0
+                if (db.check_command(599510356)[0][3]) == 1:
+                    s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 1)
+                    db.command_done(599510356)
+                    db.commit()
+                else:
+                    db.commit()
+                    print('Нет изменений')
+
+
+                if len(Time_data)>5:
+                    del(Time_data[0])
+                    Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
+                    Temperature_data.append(Current_tempreture)
+                else:
+                    Time_data.append('{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(Seconds).zfill(2)))
+                    Temperature_data.append(Current_tempreture)
 
 
             if time.time() - current_time_limit >= timer:
                 current_time_limit = time.time()
-                s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 1)
+                s.Sending_Mail(Current_tempreture, Maximum_temperature, Temperature_limit, User_data, 2)
 
             time.sleep(0.5)
             c.Hardware[0].Update()
