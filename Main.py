@@ -1,7 +1,8 @@
-import os, winshell, wmi, time, configparser, smtplib
+import os, winshell, wmi, time, configparser, smtplib, colorama
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from Classes import MySQL, Send
+from colorama import Fore, Style
 
 #------------------------------------dll reding-------------------------------
 import clr # the pythonnet module.
@@ -24,6 +25,8 @@ config.read('config.ini')
 Maximum_temperature = 0
 
 #------------------------config check------------------------------------------
+colorama.init()
+print(Fore.BLUE + '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 while 1:
     config.read('config.ini')
     Temperature_limit = int(config.get('Timing','maximum_temperature'))
@@ -33,11 +36,22 @@ while 1:
     User_data.append(str(config.get('User' , 'Password')))
     Dev_mode = int(config.get('User' , 'Developer_mode'))
 
-    if (Temperature_limit<40 or Temperature_limit>120 or timer<60 or timer>86240) and Dev_mode == 0:
-        print('Configure error. Please, check your settings. Process will be autorestarted after 20 sec.')
+    try:
+        smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
+        smtpObj.starttls()
+        smtpObj.login(User_data[0],User_data[1])
+        print(Fore.GREEN +'Passed 1/2')
+        if (Temperature_limit<40 or Temperature_limit>120 or timer<60 or timer>86240) and Dev_mode == 0:
+            print(Fore.RED + 'Configure error. Please, check your settings (Limits and timers). Process will be autorestarted after 20 sec.')
+            time.sleep(20)
+        else:
+            print(Fore.GREEN + 'Passed 2/2')
+            break
+    except:
+        print(Fore.RED + 'Configure error. Please, check your mail box settings (mail id and password). Process will be autorestarted after 20 sec.')
         time.sleep(20)
-    else:
-        break
+print(Fore.BLUE + '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+print(Style.RESET_ALL)
 #------------------------------------------------------------------------------
 
 #---------------------get current time in global mode--------------------------
@@ -50,7 +64,7 @@ Time_data = ['{}:{}:{}'.format(str(Hours).zfill(2), str(Minutes).zfill(2), str(S
 Temperature_data = [0]
 #------------------------------------------------------------------------------
 
-while True:
+while 1:
     for a in range(0, len(c.Hardware[0].Sensors)):
         if "/nvidiagpu/0/temperature" in str(c.Hardware[0].Sensors[a].Identifier):
 

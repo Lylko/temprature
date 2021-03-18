@@ -2,6 +2,8 @@ from mysql.connector import connect, Error
 import os, winshell, wmi, time, configparser, smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import colorama
+from colorama import Fore, Style
 
 class MySQL:
     #status - включен/выключен контроль
@@ -32,9 +34,10 @@ class MySQL:
 
 
 class Send:
-    # mode: 0 - превышение температуры, 2 - команда извне, остальное - отслыка по таймеру
+    # mode: 0 - превышение температуры, 1 - команда извне, остальное - отсылка по таймеру
 
     def Sending_Mail (self, now, maxim, limit, User_data, mode):
+        colorama.init()
         msg = MIMEMultipart()
         if mode == 0:
             os.system("TASKKILL /F /IM nanominer.exe")
@@ -50,11 +53,16 @@ class Send:
             message = 'Максимальная температура: {}'.format(maxim)
             msg['Subject']="Температура рига: {}.".format(now)
 
-        smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
-        smtpObj.starttls()
-        smtpObj.login(User_data[0],User_data[1])
-        msg['From']= User_data[0]
-        msg['To']=User_data[0]
-        msg.attach(MIMEText(message, 'plain'))
-        smtpObj.send_message(msg)
-        print('Отправлен отчет на почту {}'.format(msg['To']))
+        try:
+            smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
+            smtpObj.starttls()
+            smtpObj.login(User_data[0],User_data[1])
+            msg['From']= User_data[0]
+            msg['To']=User_data[0]
+            msg.attach(MIMEText(message, 'plain'))
+            smtpObj.send_message(msg)
+            print(Fore.GREEN + 'Отправлен отчет на почту {}'.format(msg['To']))
+        except:
+            print(Fore.RED + "Отправка не удалась.")
+            pass
+        print(Style.RESET_ALL)
