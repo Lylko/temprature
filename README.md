@@ -18,4 +18,4 @@ Password = xxxxxxxxx
 Developer_mode = 0
 # 0 - off, 1 - on (This mode incrise all limits, but keep in mind, that program can crash with some variables)
 ```
-Status reports are sent to the mail. Implemented control via bot telegrams. 
+Status reports are sent to the mail. Implemented control via telegram bot. 
