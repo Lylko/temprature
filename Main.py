@@ -1,7 +1,8 @@
 import os, winshell, wmi, time, configparser, smtplib, colorama
+import os.path
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from Classes import MySQL, Send
+from Classes import MySQL, Send, config_class
 from colorama import Fore, Style
 
 #------------------------------------dll reding-------------------------------
@@ -15,16 +16,20 @@ c.Open()
 #------------------------------------------------------------------------------
 
 s = Send()
-
 db = MySQL() # connecting with database
 
-#--------------------------config-settings reading------------------------------
-
+#--------------------------config-settings-------------------------------------
 config = configparser.ConfigParser()
-config.read('config.ini')
+
+if os.path.isfile('settings\config.ini') == True:
+    pass
+else:
+    config_class.create_config_file()
+
+config.read('settings\config.ini')
+
 Maximum_temperature = 0
 
-#------------------------config check------------------------------------------
 colorama.init()
 print(Fore.BLUE + '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 while 1:
@@ -52,11 +57,8 @@ while 1:
         time.sleep(20)
 print(Fore.BLUE + '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 print(Style.RESET_ALL)
-#------------------------------------------------------------------------------
 
-#---------------------get current time in global mode--------------------------
 current_time = current_time_limit = time.time()
-#------------------------------------------------------------------------------
 
 #--------------------------------Work with time--------------------------------
 Hours = Minutes = Seconds = 0
