@@ -1,12 +1,18 @@
-import os, winshell, wmi, time, configparser, smtplib, colorama
+import os
+import winshell
+import wmi
+import time
+import configparser
+import smtplib
+import colorama
 import os.path
+import clr
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from Classes import MySQL, Send, config_class
+from Classes import MySQL, Send, config_class, Global
 from colorama import Fore, Style
 
 #------------------------------------dll reding-------------------------------
-import clr # the pythonnet module.
 clr.AddReference(os.getcwd() + r'\OpenHardwareMonitorLib')
 from OpenHardwareMonitor.Hardware import Computer
 
@@ -17,6 +23,10 @@ c.Open()
 
 s = Send()
 db = MySQL() # connecting with database
+config_class = config_class()
+
+Gl = Global()
+json_data = Gl.language()
 
 #--------------------------config-settings-------------------------------------
 config = configparser.ConfigParser()
@@ -31,7 +41,7 @@ config.read('settings\config.ini')
 Maximum_temperature = 0
 
 colorama.init()
-print(Fore.BLUE + '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+print(Fore.BLUE + json_data['~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'])
 while 1:
     config.read('config.ini')
     Temperature_limit = int(config.get('Timing','maximum_temperature'))
@@ -45,17 +55,17 @@ while 1:
         smtpObj = smtplib.SMTP('smtp.gmail.com', 587)
         smtpObj.starttls()
         smtpObj.login(User_data[0],User_data[1])
-        print(Fore.GREEN +'Passed 1/2')
+        print(Fore.GREEN + json_data['Passed 1/2'])
         if (Temperature_limit<40 or Temperature_limit>120 or timer<60 or timer>86240) and Dev_mode == 0:
-            print(Fore.RED + 'Configure error. Please, check your settings (Limits and timers). Process will be autorestarted after 20 sec.')
+            print(Fore.RED + json_data['Configure error. Please, check your settings (Limits and timers). Process will be autorestarted after 20 sec.'])
             time.sleep(20)
         else:
-            print(Fore.GREEN + 'Passed 2/2')
+            print(Fore.GREEN + json_data['Passed 2/2'])
             break
     except:
-        print(Fore.RED + 'Configure error. Please, check your mail box settings (mail id and password). Process will be autorestarted after 20 sec.')
+        print(Fore.RED + json_data['Configure error. Please, check your mail box settings (mail id and password). Process will be autorestarted after 20 sec.'])
         time.sleep(20)
-print(Fore.BLUE + '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+print(Fore.BLUE + json_data['~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'])
 print(Style.RESET_ALL)
 
 current_time = current_time_limit = time.time()
@@ -94,7 +104,7 @@ while 1:
                     db.commit()
                 else:
                     db.commit()
-                    print('Нет изменений')
+                    print(json_data['No changes.'])
 
 
                 if len(Time_data)>5:

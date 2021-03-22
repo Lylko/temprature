@@ -1,0 +1,27 @@
+{
+	"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~":"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+	"Configure error. Please, check your settings (Limits and timers). Process will be autorestarted after 20 sec.":"Configure error. Please, check your settings (Limits and timers). Process will be autorestarted after 20 sec.",
+	"Passed 1/2":"Passed 1/2",
+	"Passed 2/2":"Passed 2/2",
+	"Configure error. Please, check your mail box settings (mail id and password). Process will be autorestarted after 20 sec.":"Configure error. Please, check your mail box settings (mail id and password). Process will be autorestarted after 20 sec.",
+	"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~":"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+	"No changes.":"No changes.",
+	"Temperaute will be rechecked after 20 seconds.":"Temperaute will be rechecked after 20 seconds.",
+	"Sent to {}":"Sent to {}",
+	"Sending failed.":"Sending failed.",
+	"The configuration file was not found. Creating a new file. Please go through the installation.":"The configuration file was not found. Creating a new file. Please go through the installation. ",
+	"Set the maximum temperature for your rig (minimum - 40, maximum - 120): ":"Set the maximum temperature for your rig (minimum - 40, maximum - 120): ",
+	"The parameter is accepted. ":"The parameter is accepted. ",
+	"The value does not match the parameters. Try again (you must enter values without spaces). ":"The value does not match the parameters. Try again (you must enter values without spaces). ",
+	"Set how often notifications will be sent to the mail (minimum - 60, maximum - 86240): ":"Set how often notifications will be sent to the mail (minimum - 60, maximum - 86240): ",
+	"Enter your mail id: ":"Enter your mail id: ",
+	"Enter password from your mail id: ":"Enter password from your mail id: ",
+	"Attempting to log in ... ":"Attempting to log in ... ",
+	"Successful.":"Successful.",
+	"The password or mail was entered incorrectly. Try again. ":"The password or mail was entered incorrectly. Try again. ",
+	"The setup was successful ":"The setup was successful ",
+	"Set language (en/ru): ":"Set language (en/ru): ",
+	"Please, try again.":"Please, try again."
+}
+
+

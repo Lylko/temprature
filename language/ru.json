@@ -1,0 +1,27 @@
+{
+	"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CONFIGURATION CHECK~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~":"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Проверка конфигурации~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+	"Configure error. Please, check your settings (Limits and timers). Process will be autorestarted after 20 sec.":"Ошибка конфигурации. Пожалуйста, проверьте ваши настройки (лимиты и таймеры). Программа будет перезапущена через 20 секунд.",
+	"Passed 1/2":"Пройдено 1/2",
+	"Passed 2/2":"Пройдено 2/2",
+	"Configure error. Please, check your mail box settings (mail id and password). Process will be autorestarted after 20 sec.":"Ошибка конфигурации. Пожалуйста, проверьте ваши настройки (почта и пароль). Программа будет перезапущена через 20 секунд.",
+	"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PASSED~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~":"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ПРОЙДЕНО~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+	"No changes.":"Нет изменений.",
+	"Temperaute will be rechecked after 20 seconds.":"Температура будет проверена еще раз через 20 секунд.",
+	"Sent to {}":"Отправлен отчет на почту {}",
+	"Sending failed.":"Отправка не удалась.",
+	"The configuration file was not found. Creating a new file. Please go through the installation.":"Файл настройки не найден. Создаем новый файл. Пожалуйста, пройдите установку.",
+	"Set the maximum temperature for your rig (minimum - 40, maximum - 120): ":"Установите максимальную температуру вашего рига (минимум - 40, максимум - 120): ",
+	"The parameter is accepted. ":"Параметр принят. ",
+	"The value does not match the parameters. Try again (you must enter values without spaces). ":"Значение не удовлетворяет параметрам. Попробуйте еще раз (вводить значения надо без пробелов).",
+	"Set how often notifications will be sent to the mail (minimum - 60, maximum - 86240): ":"Установите как часто будут высылаться уведомления на почту (минимум - 60, максимум - 86240): ",
+	"Enter your mail id: ":"Введите mail id вашей почты: ",
+	"Enter password from your mail id: ":"Введите пароль от вашей почты: ",
+	"Attempting to log in ... ":"Попытка авторизации...",
+	"Successful.":"Авторизация пройдена успешно!",
+	"The password or mail was entered incorrectly. Try again. ":"Пароль или почта были введены неправильно. Попробуйте еще раз.",
+	"The setup was successful ":"Настройка произведена успешно!",
+	"Set language (en/ru): ":"Выберите язык (en/ru): ",
+	"Please, try again.":"Пожалуйста, попробуйте еще раз"
+}
+
+
